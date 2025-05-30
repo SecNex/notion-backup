@@ -15,21 +15,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          tags: |
-            secnex/notion-backup:${{ github.ref_name }}
-            secnex/notion-backup:latest
-          registry: ghcr.io
-          username: ${{ secrets.GCR_USERNAME }}
-          password: ${{ secrets.GCR_TOKEN }}
-          labels: |
-            org.opencontainers.image.source=https://github.com/secnex/notion-backup
-            org.opencontainers.image.description="Notion Backup"
-            org.opencontainers.image.licenses=MIT
-            org.opencontainers.image.authors=SecNex
-            org.opencontainers.image.vendor=SecNex
+      - name: Build and Push Docker image
+        run: |
+          docker login --username ${{ secrets.GHRC_USERNAME }} --password ${{ secrets.GHRC_TOKEN }} ghcr.io
+          docker build -t ghcr.io/secnex/notion-backup:${{ github.ref_name }} -t ghcr.io/secnex/notion-backup:latest .
+          docker push ghcr.io/secnex/notion-backup:${{ github.ref_name }}
+          docker push ghcr.io/secnex/notion-backup:latest
