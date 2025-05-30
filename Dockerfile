@@ -1,5 +1,7 @@
 FROM python:slim    
 
+LABEL org.opencontainers.image.source=https://github.com/secnex/notion-backup
+
 RUN apt-get update && apt-get install -y \
     cron \
     build-essential \
