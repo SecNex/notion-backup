@@ -1,0 +1,2 @@
+requests
+secnex_notion_pdf_exporter>=0.0.4

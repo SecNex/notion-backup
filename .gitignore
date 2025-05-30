@@ -1,0 +1,7 @@
+logs/
+output/
+*.log
+*.pdf
+*.html
+.env
+.DS_Store

@@ -1,0 +1,37 @@
+name: Docker Build and Push
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            secnex/notion-backup:${{ github.ref_name }}
+            secnex/notion-backup:latest
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/secnex/notion-backup
+            org.opencontainers.image.description="Notion Backup"
+            org.opencontainers.image.licenses=MIT
+            org.opencontainers.image.authors=SecNex
+            org.opencontainers.image.vendor=SecNex

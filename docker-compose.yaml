@@ -1,0 +1,12 @@
+services:
+  notion-backup:
+    container_name: notion-backup
+    image: gcr.io/secnex/notion-backup:latest
+    environment:
+      - FILTER=
+      - NOTION_API_KEY=
+      - OUTPUT_DIR=/app/output
+    volumes:
+      - ./logs:/app/logs
+      - ./output:/app/output
+    restart: unless-stopped
