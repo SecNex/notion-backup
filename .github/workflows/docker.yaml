@@ -27,8 +27,9 @@ jobs:
           tags: |
             secnex/notion-backup:${{ github.ref_name }}
             secnex/notion-backup:latest
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: gcr.io
+          username: ${{ secrets.GCR_USERNAME }}
+          password: ${{ secrets.GCR_TOKEN }}
           labels: |
             org.opencontainers.image.source=https://github.com/secnex/notion-backup
             org.opencontainers.image.description="Notion Backup"
