@@ -18,6 +18,15 @@ echo "Cloning the repository..."
 # Clone the repository
 git clone https://github.com/secnex/notion-backup.git
 
+cd notion-backup
+
+echo "Checking if the docker-compose.build.yaml file is exists..."
+if [ ! -f docker-compose.build.yaml ]; then
+    echo "docker-compose.build.yaml file does not exist"
+    exit 1
+fi
+
+echo "Checking if the FILTER is set in the docker-compose.build.yaml file..."
 if grep -q "<FILTER>" docker-compose.build.yaml; then
     echo "FILTER is not set in the docker-compose.build.yaml file"
     # Ask the user to set the FILTER
