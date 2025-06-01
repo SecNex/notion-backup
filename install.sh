@@ -14,6 +14,7 @@ if ! command -v docker compose &> /dev/null; then
     exit 1
 fi
 
+echo "Cloning the repository..."
 # Clone the repository
 git clone https://github.com/secnex/notion-backup.git
 
@@ -39,6 +40,7 @@ if grep -q "<NOTION_API_KEY>" docker-compose.build.yaml; then
     sed -i '' "s/<NOTION_API_KEY>/${NOTION_API_KEY}/g" docker-compose.build.yaml
 fi
 
+echo "Running docker compose build..."
 # Run docker compose build
 docker compose -f docker-compose.build.yaml up -d --build --force-recreate --remove-orphans
 
