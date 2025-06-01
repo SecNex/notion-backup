@@ -14,11 +14,36 @@ if ! command -v docker compose &> /dev/null; then
     exit 1
 fi
 
+# Check if the notion-backup directory exists
+if [ -d "notion-backup" ]; then
+    echo "notion-backup directory already exists"
+    exit 1
+fi
+
 echo "Cloning the repository..."
 # Clone the repository
 git clone https://github.com/secnex/notion-backup.git
 
 cd notion-backup
+
+read -p "Enter the NOTION_BACKUP_FILTER: " NOTION_BACKUP_FILTER
+
+read -p "Enter the NOTION_BACKUP_API_KEY: " NOTION_BACKUP_API_KEY
+
+# Check if environment variables are set
+if [ -z "$NOTION_BACKUP_FILTER" ]; then
+    echo "Error: NOTION_BACKUP_FILTER environment variable is not set"
+    echo "Please set it before running the script:"
+    echo "export NOTION_BACKUP_FILTER='your_filter'"
+    exit 1
+fi
+
+if [ -z "$NOTION_BACKUP_API_KEY" ]; then
+    echo "Error: NOTION_BACKUP_API_KEY environment variable is not set"
+    echo "Please set it before running the script:"
+    echo "export NOTION_BACKUP_API_KEY='your_api_key'"
+    exit 1
+fi
 
 echo "Checking if the docker-compose.build.yaml file is exists..."
 if [ ! -f docker-compose.build.yaml ]; then
@@ -26,34 +51,9 @@ if [ ! -f docker-compose.build.yaml ]; then
     exit 1
 fi
 
-echo "Checking if the FILTER is set in the docker-compose.build.yaml file..."
-if grep -q "<FILTER>" docker-compose.build.yaml; then
-    echo "FILTER is not set in the docker-compose.build.yaml file"
-    # Ask the user to set the FILTER
-    while true; do
-        echo -n "Enter the FILTER: "
-        read FILTER
-        if [ ! -z "$FILTER" ]; then
-            break
-        fi
-        echo "FILTER cannot be empty. Please try again."
-    done
-    sed -i '' "s/<FILTER>/${FILTER}/g" docker-compose.build.yaml
-fi
-
-if grep -q "<NOTION_API_KEY>" docker-compose.build.yaml; then
-    echo "NOTION_API_KEY is not set in the docker-compose.build.yaml file"
-    # Ask the user to set the NOTION_API_KEY
-    while true; do
-        echo -n "Enter the NOTION_API_KEY: "
-        read NOTION_API_KEY
-        if [ ! -z "$NOTION_API_KEY" ]; then
-            break
-        fi
-        echo "NOTION_API_KEY cannot be empty. Please try again."
-    done
-    sed -i '' "s/<NOTION_API_KEY>/${NOTION_API_KEY}/g" docker-compose.build.yaml
-fi
+echo "Updating configuration..."
+sed -i '' "s/<FILTER>/${NOTION_BACKUP_FILTER}/g" docker-compose.build.yaml
+sed -i '' "s/<NOTION_API_KEY>/${NOTION_BACKUP_API_KEY}/g" docker-compose.build.yaml
 
 echo "Running docker compose build..."
 # Run docker compose build
