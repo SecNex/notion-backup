@@ -14,6 +14,9 @@ if ! command -v docker compose &> /dev/null; then
     exit 1
 fi
 
+# Clone the repository
+git clone https://github.com/secnex/notion-backup.git
+
 if grep -q "<FILTER>" docker-compose.build.yaml; then
     echo "FILTER is not set in the docker-compose.build.yaml file"
     # Ask the user to set the FILTER
@@ -35,9 +38,6 @@ if grep -q "<NOTION_API_KEY>" docker-compose.build.yaml; then
     fi
     sed -i '' "s/<NOTION_API_KEY>/${NOTION_API_KEY}/g" docker-compose.build.yaml
 fi
-
-# Clone the repository
-git clone https://github.com/secnex/notion-backup.git
 
 # Run docker compose build
 docker compose -f docker-compose.build.yaml up -d --build --force-recreate --remove-orphans
