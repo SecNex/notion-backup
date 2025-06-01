@@ -15,7 +15,7 @@ curl -sSL https://raw.githubusercontent.com/SecNex/notion-backup/main/install.sh
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/notion-backup/notion-backup.git
+git clone https://github.com/secnex/notion-backup.git
 cd notion-backup
 ```
 

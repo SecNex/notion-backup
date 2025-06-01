@@ -37,7 +37,7 @@ if grep -q "<NOTION_API_KEY>" docker-compose.build.yaml; then
 fi
 
 # Clone the repository
-git clone https://github.com/notion-backup/notion-backup.git
+git clone https://github.com/secnex/notion-backup.git
 
 # Run docker compose build
 docker compose -f docker-compose.build.yaml up -d --build --force-recreate --remove-orphans
