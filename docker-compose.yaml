@@ -3,8 +3,8 @@ services:
     container_name: notion-backup
     image: gcr.io/secnex/notion-backup:latest
     environment:
-      - FILTER=
-      - NOTION_API_KEY=
+      - FILTER=<FILTER>
+      - NOTION_API_KEY=<NOTION_API_KEY>
       - OUTPUT_DIR=/app/output
     volumes:
       - ./logs:/app/logs

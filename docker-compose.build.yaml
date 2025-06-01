@@ -3,8 +3,8 @@ services:
     container_name: notion-backup
     build: .
     environment:
-      - FILTER=Test
-      - NOTION_API_KEY=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
+      - FILTER=<FILTER>
+      - NOTION_API_KEY=<NOTION_API_KEY>
       - OUTPUT_DIR=/app/output
     volumes:
       - ./logs:/app/logs
