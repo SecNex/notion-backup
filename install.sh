@@ -30,6 +30,8 @@ read -p "Enter the NOTION_BACKUP_FILTER: " NOTION_BACKUP_FILTER
 
 read -p "Enter the NOTION_BACKUP_API_KEY: " NOTION_BACKUP_API_KEY
 
+read -p "Enter the NOTION_BACKUP_INTERVAL: " NOTION_BACKUP_INTERVAL
+
 # Check if environment variables are set
 if [ -z "$NOTION_BACKUP_FILTER" ]; then
     echo "Error: NOTION_BACKUP_FILTER environment variable is not set"
@@ -45,6 +47,13 @@ if [ -z "$NOTION_BACKUP_API_KEY" ]; then
     exit 1
 fi
 
+if [ -z "$NOTION_BACKUP_INTERVAL" ]; then
+    echo "Error: NOTION_BACKUP_INTERVAL environment variable is not set"
+    echo "Please set it before running the script:"
+    echo "export NOTION_BACKUP_INTERVAL='your_interval'"
+    exit 1
+fi
+
 echo "Checking if the docker-compose.build.yaml file is exists..."
 if [ ! -f docker-compose.build.yaml ]; then
     echo "docker-compose.build.yaml file does not exist"
@@ -54,6 +63,7 @@ fi
 echo "Updating configuration..."
 sed -i '' "s/<FILTER>/${NOTION_BACKUP_FILTER}/g" docker-compose.build.yaml
 sed -i '' "s/<NOTION_API_KEY>/${NOTION_BACKUP_API_KEY}/g" docker-compose.build.yaml
+sed -i '' "s/<BACKUP_INTERVAL>/${NOTION_BACKUP_INTERVAL}/g" docker-compose.build.yaml
 
 echo "Running docker compose build..."
 # Run docker compose build

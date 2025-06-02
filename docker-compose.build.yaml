@@ -4,6 +4,7 @@ services:
     build: .
     environment:
       - FILTER=<FILTER>
+      - BACKUP_INTERVAL=<BACKUP_INTERVAL>
       - NOTION_API_KEY=<NOTION_API_KEY>
       - OUTPUT_DIR=/app/output
     volumes:

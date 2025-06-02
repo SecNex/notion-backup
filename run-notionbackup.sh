@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set default backup interval if not provided
+BACKUP_INTERVAL=${BACKUP_INTERVAL:-120}
+
 while true; do
 echo "================================================" >> /app/logs/cron.log
 echo "Starting notionbackup at $(date)" >> /app/logs/cron.log
@@ -18,5 +21,5 @@ echo "Running notionconverter..." >> /app/logs/cron.log
 /usr/local/bin/notionconverter >> /app/logs/cron.log
 echo "Notionbackup completed." >> /app/logs/cron.log
 
-sleep 120
+sleep ${BACKUP_INTERVAL}
 done
